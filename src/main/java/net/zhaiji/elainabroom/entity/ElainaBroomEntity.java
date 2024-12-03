@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -15,8 +14,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -115,11 +114,7 @@ public class ElainaBroomEntity extends Entity {
         this.lerpSteps = 10;
     }
 
-    /**
-     * 这里有bug 但我不知道怎么改
-     */
     private void tickLerp() {
-        if(!this.isVehicle()) return;
         if (this.isControlledByLocalInstance()) {
             this.lerpSteps = 0;
             this.syncPacketPositionCodec(this.getX(), this.getY(), this.getZ());
@@ -128,31 +123,6 @@ public class ElainaBroomEntity extends Entity {
             this.lerpPositionAndRotationStep(this.lerpSteps, this.lerpX, this.lerpY, this.lerpZ, this.lerpYRot, this.lerpXRot);
             this.lerpSteps--;
         }
-    }
-
-    @Override
-    public double lerpTargetX() {
-        return this.lerpSteps > 0 ? this.lerpX : this.getX();
-    }
-
-    @Override
-    public double lerpTargetY() {
-        return this.lerpSteps > 0 ? this.lerpY : this.getY();
-    }
-
-    @Override
-    public double lerpTargetZ() {
-        return this.lerpSteps > 0 ? this.lerpZ : this.getZ();
-    }
-
-    @Override
-    public float lerpTargetXRot() {
-        return this.lerpSteps > 0 ? (float) this.lerpXRot : this.getXRot();
-    }
-
-    @Override
-    public float lerpTargetYRot() {
-        return this.lerpSteps > 0 ? (float) this.lerpYRot : this.getYRot();
     }
 
     // 获取实体掉落物品
@@ -263,10 +233,10 @@ public class ElainaBroomEntity extends Entity {
             double d = Math.min(1.0, (double) (playerLevel + 5) / (ElainaBroomConfig.max_level + 5));
 
             // 推进力增量（加速度）
-            double forwardSpeed = 0.1 * ElainaBroomConfig.Speed * d; // 前进速度 2倍
-            double backSpeed = 0.05 * ElainaBroomConfig.Speed * d;    // 后退速度
-            double lateralSpeed = 0.05 * ElainaBroomConfig.Speed * d; // 左右移动速度
-            double verticalSpeed = 0.05 * ElainaBroomConfig.Speed * d; // 上下移动速度
+            double forwardSpeed = 0.05 * ElainaBroomConfig.Speed * d; // 前进速度 2倍
+            double backSpeed = 0.025 * ElainaBroomConfig.Speed * d;    // 后退速度
+            double lateralSpeed = 0.025 * ElainaBroomConfig.Speed * d; // 左右移动速度
+            double verticalSpeed = 0.025 * ElainaBroomConfig.Speed * d; // 上下移动速度
             double friction = ElainaBroomConfig.friction; // 惯性摩擦系数 接近近1.0 惯性越大
 
             // 计算移动方向
@@ -306,12 +276,23 @@ public class ElainaBroomEntity extends Entity {
             this.move(MoverType.SELF, this.getDeltaMovement());
 
         } else {
+            // 下面一串有bug
+
             // 下方是空气或者是非实心方块 并且不在流体中
-            if (this.getBlockStateOn().isAir()|| !this.getBlockStateOn().isSolid() && !this.isInFluidType()) {
+            if (this.getBlockStateOn().isAir()|| !this.getBlockStateOn().isSolid() && !(this.getBlockStateOn().getFluidState().getType() instanceof Fluid)) {
                 double friction = ElainaBroomConfig.friction;
-                this.setDeltaMovement(this.getDeltaMovement().x * friction, -0.30f, this.getDeltaMovement().z * friction);
+                this.setDeltaMovement(0, -0.30f, 0);
                 this.move(MoverType.SELF, this.getDeltaMovement());
+                return;
             }
+            // 在流体中就漂浮上去
+            if (this.isInFluidType()) {
+                this.setDeltaMovement(0, 0.2f, 0);
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                return;
+            }
+
+            this.setDeltaMovement(Vec3.ZERO);
         }
     }
 
