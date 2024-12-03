@@ -1,5 +1,6 @@
 {
   "creativetab.elainabroom.elainabroom_tab": "Elaina's Broom",
   "item.elainabroom.elaina_broom": "Elaina's Broom",
-  "entity.elainabroom.elaina_broom": "Elaina's Broom"
+  "entity.elainabroom.elaina_broom": "Elaina's Broom",
+  "tips.elainabroom.need_level": "You need at least %d level to ride the broom"
 }

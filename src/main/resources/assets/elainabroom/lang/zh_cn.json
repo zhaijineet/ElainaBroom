@@ -1,5 +1,6 @@
 {
   "creativetab.elainabroom.elainabroom_tab": "伊蕾娜的扫帚",
   "item.elainabroom.elaina_broom": "伊蕾娜的扫帚",
-  "entity.elainabroom.elaina_broom": "伊蕾娜的扫帚"
+  "entity.elainabroom.elaina_broom": "伊蕾娜的扫帚",
+  "tips.elainabroom.need_level": "你需要至少 %d 级才能乘坐扫帚"
 }

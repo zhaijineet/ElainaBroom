@@ -1,5 +1,6 @@
 {
   "creativetab.elainabroom.elainabroom_tab": "イレイナのほうき",
   "item.elainabroom.elaina_broom": "イレイナのほうき",
-  "entity.elainabroom.elaina_broom": "イレイナのほうき"
+  "entity.elainabroom.elaina_broom": "イレイナのほうき",
+  "tips.elainabroom.need_level": "ほうきを使うには、最低 %d レベルが必要です"
 }

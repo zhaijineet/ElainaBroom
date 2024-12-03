@@ -39,16 +39,27 @@ public class ElainaBroomConfig {
                     Integer.MAX_VALUE
             );
 
+    private static final ModConfigSpec.IntValue NEED_LEVEL_VALUE = BUILDER
+            .comment("player must be at least this level to ride.")
+            .defineInRange(
+                    "need_level",
+                    10,
+                    0,
+                    Integer.MAX_VALUE
+            );
+
     public static final ModConfigSpec SPEC = BUILDER.pop().build();
 
     public static double Speed;
     public static double friction;
     public static int max_level;
+    public static int need_level;
 
     @SubscribeEvent
     static void onLoad(ModConfigEvent event) {
         Speed = SPEED_VALUE.get();
         friction = FRICTION_VALUE.get();
         max_level = MAX_LEVEL_VALUE.get();
+        need_level = NEED_LEVEL_VALUE.get();
     }
 }

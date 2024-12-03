@@ -2,10 +2,13 @@ package net.zhaiji.elainabroom.entity;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -156,13 +159,19 @@ public class ElainaBroomEntity extends Entity {
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         if (!player.isDiscrete() && this.canAddPassenger(this)) {
+            if (player.experienceLevel < ElainaBroomConfig.need_level) {
+                if (this.level().isClientSide() && hand == InteractionHand.MAIN_HAND) {
+                    player.sendSystemMessage(Component.translatable("tips.elainabroom.need_level", ElainaBroomConfig.need_level));
+                }
+                return super.interact(player, hand);
+            }
             this.setDeltaMovement(Vec3.ZERO);
-            if (!this.level().isClientSide) {
+            if (!this.level().isClientSide()) {
                 player.setYRot(this.getYRot());
                 player.startRiding(this);
             }
             player.setYRot(this.getYRot());
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
+            return InteractionResult.sidedSuccess(this.level().isClientSide());
         }
         return super.interact(player, hand);
     }
@@ -276,18 +285,9 @@ public class ElainaBroomEntity extends Entity {
             this.move(MoverType.SELF, this.getDeltaMovement());
 
         } else {
-            // 下面一串有bug
-
             // 下方是空气或者是非实心方块 并且不在流体中
-            if (this.getBlockStateOn().isAir()|| !this.getBlockStateOn().isSolid() && !(this.getBlockStateOn().getFluidState().getType() instanceof Fluid)) {
-                double friction = ElainaBroomConfig.friction;
-                this.setDeltaMovement(0, -0.30f, 0);
-                this.move(MoverType.SELF, this.getDeltaMovement());
-                return;
-            }
-            // 在流体中就漂浮上去
-            if (this.isInFluidType()) {
-                this.setDeltaMovement(0, 0.2f, 0);
+            if ((this.getBlockStateOn().isAir() || !this.getBlockStateOn().isSolid()) && this.getBlockStateOn().getFluidState().isEmpty()) {
+                this.setDeltaMovement(0, -0.3f, 0);
                 this.move(MoverType.SELF, this.getDeltaMovement());
                 return;
             }
