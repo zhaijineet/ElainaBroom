@@ -192,7 +192,7 @@ public class ElainaBroomEntity extends Entity {
             if (this.hasCustomName()) {
                 itemStack.set(DataComponents.CUSTOM_NAME, this.getCustomName());
             }
-            player.spawnAtLocation(itemStack);
+            this.spawnAtLocation(itemStack);
             this.discard();
             return true;
         }
