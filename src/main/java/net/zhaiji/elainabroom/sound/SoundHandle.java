@@ -1,15 +1,15 @@
 package net.zhaiji.elainabroom.sound;
 
 import net.minecraft.client.Minecraft;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.EntityMountEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.entity.EntityMountEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.zhaiji.elainabroom.ElainaBroom;
 import net.zhaiji.elainabroom.entity.ElainaBroomEntity;
 
-@EventBusSubscriber(modid = ElainaBroom.MOD_ID, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = ElainaBroom.MOD_ID, value = Dist.CLIENT)
 public class SoundHandle {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent

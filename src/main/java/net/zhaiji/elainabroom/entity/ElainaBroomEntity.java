@@ -2,13 +2,10 @@ package net.zhaiji.elainabroom.entity;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -18,10 +15,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.zhaiji.elainabroom.ElainaBroomConfig;
 import net.zhaiji.elainabroom.init.InitItem;
 import org.jetbrains.annotations.Nullable;
@@ -50,7 +46,7 @@ public class ElainaBroomEntity extends Entity {
     private double lerpYRot;
     private double lerpXRot;
 
-    public ElainaBroomEntity(EntityType<?> entityType, Level level) {
+    public ElainaBroomEntity(EntityType<ElainaBroomEntity> entityType, Level level) {
         super(entityType, level);
         this.blocksBuilding = true;
     }
@@ -90,25 +86,22 @@ public class ElainaBroomEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
 
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag compound) {
+    protected void readAdditionalSaveData(CompoundTag compoundTag) {
 
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag compound) {
+    protected void addAdditionalSaveData(CompoundTag compoundTag) {
 
     }
 
-    /**
-     * lerp是从boat类里直接拿的
-     */
     @Override
-    public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps) {
+    public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps, boolean flag) {
         this.lerpX = x;
         this.lerpY = y;
         this.lerpZ = z;
@@ -123,8 +116,15 @@ public class ElainaBroomEntity extends Entity {
             this.syncPacketPositionCodec(this.getX(), this.getY(), this.getZ());
         }
         if (this.lerpSteps > 0) {
-            this.lerpPositionAndRotationStep(this.lerpSteps, this.lerpX, this.lerpY, this.lerpZ, this.lerpYRot, this.lerpXRot);
-            this.lerpSteps--;
+            double d0 = this.getX() + (this.lerpX - this.getX()) / (double) this.lerpSteps;
+            double d1 = this.getY() + (this.lerpY - this.getY()) / (double) this.lerpSteps;
+            double d2 = this.getZ() + (this.lerpZ - this.getZ()) / (double) this.lerpSteps;
+            double d3 = Mth.wrapDegrees(this.lerpYRot - (double) this.getYRot());
+            this.setYRot(this.getYRot() + (float) d3 / (float) this.lerpSteps);
+            this.setXRot(this.getXRot() + (float) (this.lerpXRot - (double) this.getXRot()) / (float) this.lerpSteps);
+            --this.lerpSteps;
+            this.setPos(d0, d1, d2);
+            this.setRot(this.getYRot(), this.getXRot());
         }
     }
 
@@ -190,7 +190,7 @@ public class ElainaBroomEntity extends Entity {
         } else if (source.getEntity() instanceof Player player && player.isDiscrete()) {
             ItemStack itemStack = new ItemStack(this.getDropItem());
             if (this.hasCustomName()) {
-                itemStack.set(DataComponents.CUSTOM_NAME, this.getCustomName());
+                itemStack.setHoverName(this.getCustomName());
             }
             this.spawnAtLocation(itemStack);
             this.discard();
@@ -303,4 +303,5 @@ public class ElainaBroomEntity extends Entity {
         this.checkInsideBlocks();
         this.controlBroom();
     }
+
 }

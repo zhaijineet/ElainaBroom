@@ -1,17 +1,17 @@
 package net.zhaiji.elainabroom;
 
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.config.ModConfigEvent;
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 
-@EventBusSubscriber(modid = ElainaBroom.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ElainaBroom.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ElainaBroomConfig {
-    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder()
+    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder()
             .comment("config")
             .push("Config");
 
-    private static final ModConfigSpec.DoubleValue SPEED_VALUE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue SPEED_VALUE = BUILDER
             .comment("speed")
             .defineInRange(
                     "Speed",
@@ -20,7 +20,7 @@ public class ElainaBroomConfig {
                     10.0
             );
 
-    private static final ModConfigSpec.DoubleValue FRICTION_VALUE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue FRICTION_VALUE = BUILDER
             .comment("friction")
             .defineInRange(
                     "friction",
@@ -29,7 +29,7 @@ public class ElainaBroomConfig {
                     0.99
             );
 
-    private static final ModConfigSpec.IntValue MAX_LEVEL_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue MAX_LEVEL_VALUE = BUILDER
             .comment("player level correlates with speed")
             .comment("higher level, higher speed.")
             .defineInRange(
@@ -39,7 +39,7 @@ public class ElainaBroomConfig {
                     Integer.MAX_VALUE
             );
 
-    private static final ModConfigSpec.IntValue NEED_LEVEL_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue NEED_LEVEL_VALUE = BUILDER
             .comment("player must be at least this level to ride.")
             .defineInRange(
                     "need_level",
@@ -48,7 +48,7 @@ public class ElainaBroomConfig {
                     Integer.MAX_VALUE
             );
 
-    private static final ModConfigSpec.DoubleValue FORWARD_SPEED = BUILDER
+    private static final ForgeConfigSpec.DoubleValue FORWARD_SPEED = BUILDER
             .comment("forwardSpeed")
             .defineInRange(
                     "forwardSpeed",
@@ -57,7 +57,7 @@ public class ElainaBroomConfig {
                     5.0
             );
 
-    private static final ModConfigSpec.DoubleValue BACK_SPEED = BUILDER
+    private static final ForgeConfigSpec.DoubleValue BACK_SPEED = BUILDER
             .comment("backSpeed")
             .defineInRange(
                     "backSpeed",
@@ -66,7 +66,7 @@ public class ElainaBroomConfig {
                     5.0
             );
 
-    private static final ModConfigSpec.DoubleValue LATERAL_SPEED = BUILDER
+    private static final ForgeConfigSpec.DoubleValue LATERAL_SPEED = BUILDER
             .comment("lateralSpeed")
             .defineInRange(
                     "lateralSpeed",
@@ -75,7 +75,7 @@ public class ElainaBroomConfig {
                     5.0
             );
 
-    private static final ModConfigSpec.DoubleValue VERTICAL_SPEED = BUILDER
+    private static final ForgeConfigSpec.DoubleValue VERTICAL_SPEED = BUILDER
             .comment("verticalSpeed")
             .defineInRange(
                     "verticalSpeed",
@@ -84,7 +84,7 @@ public class ElainaBroomConfig {
                     5.0
             );
 
-    public static final ModConfigSpec SPEC = BUILDER.pop().build();
+    public static final ForgeConfigSpec SPEC = BUILDER.pop().build();
 
     public static double Speed;
     public static double friction;

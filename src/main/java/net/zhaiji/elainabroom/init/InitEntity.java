@@ -2,7 +2,7 @@ package net.zhaiji.elainabroom.init;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.registries.DeferredRegister;
 import net.zhaiji.elainabroom.ElainaBroom;
 import net.zhaiji.elainabroom.entity.ElainaBroomEntity;
 

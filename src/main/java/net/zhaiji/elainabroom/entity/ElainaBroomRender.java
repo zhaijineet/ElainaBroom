@@ -15,7 +15,7 @@ import net.zhaiji.elainabroom.ElainaBroom;
 import org.slf4j.Logger;
 
 public class ElainaBroomRender extends EntityRenderer<ElainaBroomEntity> {
-    private static final ResourceLocation BROOM_TEXTURE = ResourceLocation.fromNamespaceAndPath(ElainaBroom.MOD_ID, "textures/entity/broom.png");
+    private static final ResourceLocation BROOM_TEXTURE = new ResourceLocation(ElainaBroom.MOD_ID, "textures/entity/broom.png");
     private static final Logger LOGGER = LogUtils.getLogger();
 
     private final EntityModel<ElainaBroomEntity> ElainaBroomEntityEntityModel;
@@ -41,7 +41,7 @@ public class ElainaBroomRender extends EntityRenderer<ElainaBroomEntity> {
 
         RenderType renderType = ElainaBroomEntityEntityModel.renderType(getTextureLocation(entity));
         VertexConsumer buffer = bufferIn.getBuffer(renderType);
-        ElainaBroomEntityEntityModel.renderToBuffer(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        ElainaBroomEntityEntityModel.renderToBuffer(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY,0,0,0,0);
         poseStack.popPose();
     }
 }

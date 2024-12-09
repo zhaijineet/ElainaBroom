@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.zhaiji.elainabroom.ElainaBroom;
 
 public class ElainaBroomModel extends EntityModel<ElainaBroomEntity> {
-    public static final ModelLayerLocation LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ElainaBroom.MOD_ID, "main"), "broom");
+    public static final ModelLayerLocation LAYER = new ModelLayerLocation(new ResourceLocation(ElainaBroom.MOD_ID, "main"), "broom");
     private final ModelPart broom;
     private final ModelPart handle;
     private final ModelPart head;
@@ -123,7 +123,7 @@ public class ElainaBroomModel extends EntityModel<ElainaBroomEntity> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float v, float v1, float v2, float v3) {
         broom.render(poseStack, buffer, packedLight, packedOverlay);
     }
 }

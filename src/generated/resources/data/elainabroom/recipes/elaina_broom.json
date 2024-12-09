@@ -24,7 +24,7 @@
     "E  "
   ],
   "result": {
-    "count": 1,
-    "id": "elainabroom:elaina_broom"
-  }
+    "item": "elainabroom:elaina_broom"
+  },
+  "show_notification": true
 }
