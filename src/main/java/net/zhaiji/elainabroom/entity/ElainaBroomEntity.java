@@ -242,10 +242,10 @@ public class ElainaBroomEntity extends Entity {
             double d = Math.min(1.0, (double) (playerLevel + 5) / (ElainaBroomConfig.max_level + 5));
 
             // 推进力增量（加速度）
-            double forwardSpeed = 0.05 * ElainaBroomConfig.Speed * d; // 前进速度 2倍
-            double backSpeed = 0.025 * ElainaBroomConfig.Speed * d;    // 后退速度
-            double lateralSpeed = 0.025 * ElainaBroomConfig.Speed * d; // 左右移动速度
-            double verticalSpeed = 0.025 * ElainaBroomConfig.Speed * d; // 上下移动速度
+            double forwardSpeed = 0.025 * ElainaBroomConfig.forwardSpeed * ElainaBroomConfig.Speed * d; // 前进速度 2倍
+            double backSpeed = 0.025 * ElainaBroomConfig.backSpeed * ElainaBroomConfig.Speed * d;    // 后退速度
+            double lateralSpeed = 0.025 * ElainaBroomConfig.lateralSpeed * ElainaBroomConfig.Speed * d; // 左右移动速度
+            double verticalSpeed = 0.025 * ElainaBroomConfig.verticalSpeed * ElainaBroomConfig.Speed * d; // 上下移动速度
             double friction = ElainaBroomConfig.friction; // 惯性摩擦系数 接近近1.0 惯性越大
 
             // 计算移动方向

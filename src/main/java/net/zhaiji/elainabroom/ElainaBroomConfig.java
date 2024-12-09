@@ -48,12 +48,52 @@ public class ElainaBroomConfig {
                     Integer.MAX_VALUE
             );
 
+    private static final ModConfigSpec.DoubleValue FORWARD_SPEED = BUILDER
+            .comment("forwardSpeed")
+            .defineInRange(
+                    "forwardSpeed",
+                    2.0,
+                    0.1,
+                    5.0
+            );
+
+    private static final ModConfigSpec.DoubleValue BACK_SPEED = BUILDER
+            .comment("backSpeed")
+            .defineInRange(
+                    "backSpeed",
+                    1.0,
+                    0.1,
+                    5.0
+            );
+
+    private static final ModConfigSpec.DoubleValue LATERAL_SPEED = BUILDER
+            .comment("lateralSpeed")
+            .defineInRange(
+                    "lateralSpeed",
+                    1.0,
+                    0.1,
+                    5.0
+            );
+
+    private static final ModConfigSpec.DoubleValue VERTICAL_SPEED = BUILDER
+            .comment("verticalSpeed")
+            .defineInRange(
+                    "verticalSpeed",
+                    1.2,
+                    0.1,
+                    5.0
+            );
+
     public static final ModConfigSpec SPEC = BUILDER.pop().build();
 
     public static double Speed;
     public static double friction;
     public static int max_level;
     public static int need_level;
+    public static double forwardSpeed;
+    public static double backSpeed;
+    public static double lateralSpeed;
+    public static double verticalSpeed;
 
     @SubscribeEvent
     static void onLoad(ModConfigEvent event) {
@@ -61,5 +101,9 @@ public class ElainaBroomConfig {
         friction = FRICTION_VALUE.get();
         max_level = MAX_LEVEL_VALUE.get();
         need_level = NEED_LEVEL_VALUE.get();
+        forwardSpeed = FORWARD_SPEED.get();
+        backSpeed = BACK_SPEED.get();
+        lateralSpeed = LATERAL_SPEED.get();
+        verticalSpeed = VERTICAL_SPEED.get();
     }
 }
