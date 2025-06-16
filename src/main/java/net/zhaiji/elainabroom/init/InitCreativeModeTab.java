@@ -16,9 +16,9 @@ public class InitCreativeModeTab {
             "elainabroom_tab",
             () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(InitItem.ELAINA_BROOM.get()))
-                    .title(Component.translatable("creativetab.elainabroom.elainabroom_tab"))
+                    .title(Component.translatable("itemGroup.elainabroom.elaina_broom"))
                     .displayItems(((itemDisplayParameters, output) -> {
-                        InitItem.ITEMS.getEntries().forEach(itemDeferredHolder -> {
+                        InitItem.ITEM.getEntries().forEach(itemDeferredHolder -> {
                             output.accept(itemDeferredHolder.get());
                         });
                     }))

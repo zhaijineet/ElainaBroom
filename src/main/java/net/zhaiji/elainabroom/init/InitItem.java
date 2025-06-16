@@ -21,34 +21,30 @@ import net.zhaiji.elainabroom.ElainaBroom;
 import net.zhaiji.elainabroom.entity.ElainaBroomEntity;
 
 public class InitItem {
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ElainaBroom.MOD_ID);
+    public static final DeferredRegister<Item> ITEM = DeferredRegister.create(ForgeRegistries.ITEMS, ElainaBroom.MOD_ID);
 
-    public static final RegistryObject<Item> ELAINA_BROOM = ITEMS.register("elaina_broom", () -> new Item(new Item.Properties().stacksTo(1)) {
-        @Override
-        public InteractionResult useOn(UseOnContext context) {
-            if (context.getClickedFace() != Direction.DOWN) {
-                Level world = context.getLevel();
-                BlockPos clickedPos = new BlockPlaceContext(context).getClickedPos();
-                AABB boundingBox = ElainaBroomEntity.TYPE.getDimensions().makeBoundingBox(Vec3.atBottomCenterOf(clickedPos));
-                if (world.noCollision(boundingBox) && world.getEntities(null, boundingBox).isEmpty()) {
-                    ItemStack stack = context.getItemInHand();
-                    if (world instanceof ServerLevel serverWorld) {
-                        ElainaBroomEntity broom = ElainaBroomEntity.TYPE.create(serverWorld, stack.getTag(), (entity) -> {
-                            if (stack.hasCustomHoverName()) {
-                                entity.setCustomName(stack.getDisplayName());
+    public static final RegistryObject<Item> ELAINA_BROOM = ITEM.register(
+            "elaina_broom",
+            () -> new Item(new Item.Properties().stacksTo(1)) {
+                @Override
+                public InteractionResult useOn(UseOnContext pContext) {
+                    if (pContext.getClickedFace() != Direction.DOWN) {
+                        Level level = pContext.getLevel();
+                        BlockPos clickPos = new BlockPlaceContext(pContext).getClickedPos();
+                        AABB aabb = ElainaBroomEntity.TYPE.getDimensions().makeBoundingBox(Vec3.atBottomCenterOf(clickPos));
+                        if (level.noCollision(aabb) && level.getEntities(null, aabb).isEmpty()) {
+                            ItemStack stack = pContext.getItemInHand();
+                            if (level instanceof ServerLevel serverLevel) {
+                                ElainaBroomEntity broom = ElainaBroomEntity.summonBroom(serverLevel, stack, pContext.getClickedPos(), null);
+                                if (broom == null) {
+                                    return InteractionResult.FAIL;
+                                }
                             }
-                        }, context.getClickedPos(), MobSpawnType.SPAWN_EGG, true, true);
-                        if (broom == null) {
-                            return InteractionResult.FAIL;
+                            stack.shrink(1);
+                            return InteractionResult.sidedSuccess(level.isClientSide());
                         }
-                        world.addFreshEntity(broom);
-                        world.playSound(null, broom.getX(), broom.getY(), broom.getZ(), SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.75F, 0.8F);
                     }
-                    stack.shrink(1);
-                    return InteractionResult.sidedSuccess(world.isClientSide());
+                    return InteractionResult.FAIL;
                 }
-            }
-            return InteractionResult.FAIL;
-        }
-    });
+            });
 }

@@ -7,26 +7,36 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 @Mod.EventBusSubscriber(modid = ElainaBroom.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ElainaBroomConfig {
+    public static int recall_distance;
+    public static int need_level;
+    public static int max_level;
+    public static double speed;
+    public static double friction;
+    public static double forwardSpeed;
+    public static double backSpeed;
+    public static double lateralSpeed;
+    public static double verticalSpeed;
+
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder()
             .comment("config")
             .push("Config");
 
-    private static final ForgeConfigSpec.DoubleValue SPEED_VALUE = BUILDER
-            .comment("speed")
+    private static final ForgeConfigSpec.IntValue RECALL_DISTANCE = BUILDER
+            .comment("player can recall broom distance")
             .defineInRange(
-                    "Speed",
-                    1.0,
-                    0.0,
-                    10.0
+                    "recall_distance",
+                    10,
+                    5,
+                    20
             );
 
-    private static final ForgeConfigSpec.DoubleValue FRICTION_VALUE = BUILDER
-            .comment("friction")
+    private static final ForgeConfigSpec.IntValue NEED_LEVEL_VALUE = BUILDER
+            .comment("player must be at least this level to ride.")
             .defineInRange(
-                    "friction",
-                    0.95,
-                    0.01,
-                    0.99
+                    "need_level",
+                    10,
+                    0,
+                    Integer.MAX_VALUE
             );
 
     private static final ForgeConfigSpec.IntValue MAX_LEVEL_VALUE = BUILDER
@@ -39,13 +49,22 @@ public class ElainaBroomConfig {
                     Integer.MAX_VALUE
             );
 
-    private static final ForgeConfigSpec.IntValue NEED_LEVEL_VALUE = BUILDER
-            .comment("player must be at least this level to ride.")
+    private static final ForgeConfigSpec.DoubleValue SPEED_VALUE = BUILDER
+            .comment("speed")
             .defineInRange(
-                    "need_level",
-                    10,
-                    0,
-                    Integer.MAX_VALUE
+                    "speed",
+                    1.0,
+                    0.0,
+                    10.0
+            );
+
+    private static final ForgeConfigSpec.DoubleValue FRICTION_VALUE = BUILDER
+            .comment("friction")
+            .defineInRange(
+                    "friction",
+                    0.93,
+                    0.01,
+                    0.99
             );
 
     private static final ForgeConfigSpec.DoubleValue FORWARD_SPEED = BUILDER
@@ -79,28 +98,20 @@ public class ElainaBroomConfig {
             .comment("verticalSpeed")
             .defineInRange(
                     "verticalSpeed",
-                    1.2,
+                    1.0,
                     0.1,
                     5.0
             );
 
-    public static final ForgeConfigSpec SPEC = BUILDER.pop().build();
-
-    public static double Speed;
-    public static double friction;
-    public static int max_level;
-    public static int need_level;
-    public static double forwardSpeed;
-    public static double backSpeed;
-    public static double lateralSpeed;
-    public static double verticalSpeed;
+    public static final ForgeConfigSpec SPEC = BUILDER.build();
 
     @SubscribeEvent
-    static void onLoad(ModConfigEvent event) {
-        Speed = SPEED_VALUE.get();
-        friction = FRICTION_VALUE.get();
-        max_level = MAX_LEVEL_VALUE.get();
+    static void onLoad(final ModConfigEvent event) {
+        recall_distance = RECALL_DISTANCE.get();
         need_level = NEED_LEVEL_VALUE.get();
+        max_level = MAX_LEVEL_VALUE.get();
+        speed = SPEED_VALUE.get();
+        friction = FRICTION_VALUE.get();
         forwardSpeed = FORWARD_SPEED.get();
         backSpeed = BACK_SPEED.get();
         lateralSpeed = LATERAL_SPEED.get();
