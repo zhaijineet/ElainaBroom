@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.zhaiji.elainabroom.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "elainabroom.refmap.json",
+  "mixins": [
+    "PlayerMixin"
+  ],
+  "client": [
+    "ClientPacketListenerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

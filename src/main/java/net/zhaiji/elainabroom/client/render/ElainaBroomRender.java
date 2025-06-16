@@ -1,8 +1,7 @@
-package net.zhaiji.elainabroom.entity;
+package net.zhaiji.elainabroom.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.logging.LogUtils;
 import com.mojang.math.Axis;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -11,12 +10,15 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.zhaiji.elainabroom.ElainaBroom;
-import org.slf4j.Logger;
+import net.zhaiji.elainabroom.client.model.ElainaBroomModel;
+import net.zhaiji.elainabroom.entity.ElainaBroomEntity;
 
+@OnlyIn(Dist.CLIENT)
 public class ElainaBroomRender extends EntityRenderer<ElainaBroomEntity> {
-    private static final ResourceLocation BROOM_TEXTURE = ResourceLocation.fromNamespaceAndPath(ElainaBroom.MOD_ID, "textures/entity/broom.png");
-    private static final Logger LOGGER = LogUtils.getLogger();
+    private static final ResourceLocation BROOM_TEXTURE = ResourceLocation.fromNamespaceAndPath(ElainaBroom.MOD_ID, "textures/entity/elaina_broom.png");
 
     private final EntityModel<ElainaBroomEntity> ElainaBroomEntityEntityModel;
 

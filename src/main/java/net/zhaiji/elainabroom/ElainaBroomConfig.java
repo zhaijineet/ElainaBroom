@@ -7,9 +7,47 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 
 @EventBusSubscriber(modid = ElainaBroom.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class ElainaBroomConfig {
+    public static int recall_distance;
+    public static int need_level;
+    public static int max_level;
+    public static double speed;
+    public static double friction;
+    public static double forwardSpeed;
+    public static double backSpeed;
+    public static double lateralSpeed;
+    public static double verticalSpeed;
+
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder()
             .comment("config")
             .push("Config");
+
+    private static final ModConfigSpec.IntValue RECALL_DISTANCE = BUILDER
+            .comment("player can recall broom distance")
+            .defineInRange(
+                    "recall_distance",
+                    10,
+                    5,
+                    20
+            );
+
+    private static final ModConfigSpec.IntValue NEED_LEVEL_VALUE = BUILDER
+            .comment("player must be at least this level to ride.")
+            .defineInRange(
+                    "need_level",
+                    10,
+                    0,
+                    Integer.MAX_VALUE
+            );
+
+    private static final ModConfigSpec.IntValue MAX_LEVEL_VALUE = BUILDER
+            .comment("player level correlates with speed")
+            .comment("higher level, higher speed.")
+            .defineInRange(
+                    "max_level",
+                    30,
+                    0,
+                    Integer.MAX_VALUE
+            );
 
     private static final ModConfigSpec.DoubleValue SPEED_VALUE = BUILDER
             .comment("speed")
@@ -24,28 +62,9 @@ public class ElainaBroomConfig {
             .comment("friction")
             .defineInRange(
                     "friction",
-                    0.95,
+                    0.93,
                     0.01,
                     0.99
-            );
-
-    private static final ModConfigSpec.IntValue MAX_LEVEL_VALUE = BUILDER
-            .comment("player level correlates with speed")
-            .comment("higher level, higher speed.")
-            .defineInRange(
-                    "max_level",
-                    30,
-                    0,
-                    Integer.MAX_VALUE
-            );
-
-    private static final ModConfigSpec.IntValue NEED_LEVEL_VALUE = BUILDER
-            .comment("player must be at least this level to ride.")
-            .defineInRange(
-                    "need_level",
-                    10,
-                    0,
-                    Integer.MAX_VALUE
             );
 
     private static final ModConfigSpec.DoubleValue FORWARD_SPEED = BUILDER
@@ -84,23 +103,15 @@ public class ElainaBroomConfig {
                     5.0
             );
 
-    public static final ModConfigSpec SPEC = BUILDER.pop().build();
-
-    public static double Speed;
-    public static double friction;
-    public static int max_level;
-    public static int need_level;
-    public static double forwardSpeed;
-    public static double backSpeed;
-    public static double lateralSpeed;
-    public static double verticalSpeed;
+    public static final ModConfigSpec SPEC = BUILDER.build();
 
     @SubscribeEvent
     static void onLoad(ModConfigEvent event) {
-        Speed = SPEED_VALUE.get();
-        friction = FRICTION_VALUE.get();
+        recall_distance = RECALL_DISTANCE.get();
         max_level = MAX_LEVEL_VALUE.get();
         need_level = NEED_LEVEL_VALUE.get();
+        speed = SPEED_VALUE.get();
+        friction = FRICTION_VALUE.get();
         forwardSpeed = FORWARD_SPEED.get();
         backSpeed = BACK_SPEED.get();
         lateralSpeed = LATERAL_SPEED.get();

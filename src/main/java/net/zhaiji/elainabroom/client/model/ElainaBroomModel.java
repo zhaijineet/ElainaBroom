@@ -1,4 +1,4 @@
-package net.zhaiji.elainabroom.entity;
+package net.zhaiji.elainabroom.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -8,8 +8,12 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.zhaiji.elainabroom.ElainaBroom;
+import net.zhaiji.elainabroom.entity.ElainaBroomEntity;
 
+@OnlyIn(Dist.CLIENT)
 public class ElainaBroomModel extends EntityModel<ElainaBroomEntity> {
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ElainaBroom.MOD_ID, "main"), "broom");
     private final ModelPart broom;
