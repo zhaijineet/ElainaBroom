@@ -7,7 +7,7 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.zhaiji.elainabroom.ElainaBroom;
-import net.zhaiji.elainabroom.network.client.MessagePacket;
+import net.zhaiji.elainabroom.network.client.packet.MessagePacket;
 import net.zhaiji.elainabroom.network.server.DismountPacket;
 import net.zhaiji.elainabroom.network.server.SummonOrRecallBroomPacket;
 

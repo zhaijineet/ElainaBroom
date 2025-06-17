@@ -1,12 +1,10 @@
-package net.zhaiji.elainabroom.network.client;
+package net.zhaiji.elainabroom.network.client.packet;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
+import net.zhaiji.elainabroom.network.client.ClientPacketHandle;
 
 import java.util.function.Supplier;
 
@@ -23,11 +21,7 @@ public record MessagePacket(int level) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-                Minecraft minecraft = Minecraft.getInstance();
-                Player player = minecraft.player;
-                if (player != null) {
-                    player.displayClientMessage(Component.translatable("tips.elainabroom.need_level", this.level), true);
-                }
+                ClientPacketHandle.handleMessagePacket(this);
             });
         });
         context.setPacketHandled(true);

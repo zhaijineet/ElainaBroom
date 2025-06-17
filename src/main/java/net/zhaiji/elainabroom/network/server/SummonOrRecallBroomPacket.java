@@ -11,7 +11,7 @@ import net.zhaiji.elainabroom.ElainaBroomConfig;
 import net.zhaiji.elainabroom.entity.ElainaBroomEntity;
 import net.zhaiji.elainabroom.init.InitItem;
 import net.zhaiji.elainabroom.network.ElainaBroomPacket;
-import net.zhaiji.elainabroom.network.client.MessagePacket;
+import net.zhaiji.elainabroom.network.client.packet.MessagePacket;
 
 import java.util.function.Supplier;
 
