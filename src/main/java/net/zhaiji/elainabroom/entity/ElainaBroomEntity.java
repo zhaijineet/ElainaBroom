@@ -234,7 +234,7 @@ public class ElainaBroomEntity extends Entity {
     protected void positionRider(Entity pPassenger, MoveFunction pCallback) {
         if (this.hasPassenger(pPassenger)) {
             double d0 = this.getY() + this.getPassengersRidingOffset() + pPassenger.getMyRidingOffset();
-            pCallback.accept(pPassenger, this.getX(), d0 - 0.1, this.getZ());
+            pCallback.accept(pPassenger, this.getX(), d0 - 0.2, this.getZ());
         }
     }
 
