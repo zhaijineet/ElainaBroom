@@ -12,9 +12,8 @@ import net.zhaiji.elainabroom.entity.ElainaBroomEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class BroomFlightSound extends AbstractTickableSoundInstance {
-    public static final int DELAY = 20;
-    public ElainaBroomEntity broom;
-    public int time;
+    private final ElainaBroomEntity broom;
+    private int time;
 
     public BroomFlightSound(ElainaBroomEntity broom) {
         super(SoundEvents.ELYTRA_FLYING, SoundSource.PLAYERS, SoundInstance.createUnseededRandom());
@@ -27,9 +26,7 @@ public class BroomFlightSound extends AbstractTickableSoundInstance {
     @Override
     public void tick() {
         ++this.time;
-        if (this.broom.isRemoved() && !(this.broom.getControllingPassenger() instanceof Player)) {
-            this.stop();
-        } else {
+        if (!this.broom.isRemoved() && this.broom.getControllingPassenger() instanceof Player) {
             this.x = (float) this.broom.getX();
             this.y = (float) this.broom.getY();
             this.z = (float) this.broom.getZ();
@@ -46,12 +43,13 @@ public class BroomFlightSound extends AbstractTickableSoundInstance {
                 this.volume *= (float) (this.time - 20) / 20.0F;
             }
 
-            float f1 = 0.8F;
             if (this.volume > 0.8F) {
                 this.pitch = 1.0F + (this.volume - 0.8F);
             } else {
                 this.pitch = 1.0F;
             }
+        } else {
+            this.stop();
         }
     }
 }

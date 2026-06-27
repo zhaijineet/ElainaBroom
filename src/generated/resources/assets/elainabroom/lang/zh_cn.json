@@ -1,0 +1,16 @@
+{
+  "entity.elainabroom.elaina_broom": "伊蕾娜的扫帚",
+  "item.elainabroom.elaina_broom": "伊蕾娜的扫帚",
+  "itemGroup.elainabroom.elaina_broom": "伊蕾娜的扫帚",
+  "key.elainabroom.broom_dismount": "下来",
+  "key.elainabroom.broom_down": "下降",
+  "key.elainabroom.broom_summon_recall": "召唤 / 召回",
+  "key.elainabroom.broom_up": "上升",
+  "key.elainabroom.categories": "伊蕾娜的扫帚",
+  "tips.elainabroom.need_level": "你需要至少%d级才能乘坐扫帚",
+  "tooltip.elainabroom.broom.max_level": "%s级达到满速",
+  "tooltip.elainabroom.broom.need_level": "需要至少%s级才能乘坐",
+  "tooltip.elainabroom.broom.ride_and_max_level": "需要至少%s级才能乘坐，%s级达到满速",
+  "tooltip.elainabroom.broom.speed": "当前速度约%s格/秒",
+  "tooltip.elainabroom.broom.summon_and_recall": "按%s召唤或回收扫帚，回收范围%s格"
+}

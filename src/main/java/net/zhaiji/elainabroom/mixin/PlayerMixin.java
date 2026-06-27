@@ -10,18 +10,34 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin extends LivingEntity {
-    protected PlayerMixin(EntityType<? extends LivingEntity> entityType, Level level) {
+    public PlayerMixin(EntityType<? extends LivingEntity> entityType, Level level) {
         super(entityType, level);
     }
 
-    @Inject(method = "updatePlayerPose", at = @At("HEAD"), cancellable = true)
-    void elainaBroom$updatePlayerPose(CallbackInfo ci) {
+    @Inject(
+        method = "updatePlayerPose",
+        at = @At("HEAD"),
+        cancellable = true
+    )
+    public void elainaBroom$updatePlayerPose(CallbackInfo ci) {
         if (this.getVehicle() instanceof ElainaBroomEntity) {
             this.setPose(Pose.STANDING);
             ci.cancel();
+        }
+    }
+
+    @Inject(
+        method = "wantsToStopRiding",
+        at = @At("HEAD"),
+        cancellable = true
+    )
+    public void elainaBroom$wantsToStopRiding(CallbackInfoReturnable<Boolean> cir) {
+        if (this.getVehicle() instanceof ElainaBroomEntity) {
+            cir.setReturnValue(false);
         }
     }
 }

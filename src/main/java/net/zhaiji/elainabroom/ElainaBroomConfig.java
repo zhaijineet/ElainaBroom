@@ -1,21 +1,19 @@
 package net.zhaiji.elainabroom;
 
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-@EventBusSubscriber(modid = ElainaBroom.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class ElainaBroomConfig {
-    public static int recall_distance;
-    public static int need_level;
-    public static int max_level;
+    public static int recallDistance;
+    public static int needLevel;
+    public static int maxLevel;
     public static double speed;
     public static double friction;
     public static double forwardSpeed;
     public static double backSpeed;
     public static double lateralSpeed;
     public static double verticalSpeed;
+    public static boolean unlimitedSpeed;
 
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder()
             .comment("config")
@@ -24,8 +22,8 @@ public class ElainaBroomConfig {
     private static final ModConfigSpec.IntValue RECALL_DISTANCE = BUILDER
             .comment("player can recall broom distance")
             .defineInRange(
-                    "recall_distance",
-                    10,
+                    "recallDistance",
+                    16,
                     5,
                     20
             );
@@ -33,18 +31,18 @@ public class ElainaBroomConfig {
     private static final ModConfigSpec.IntValue NEED_LEVEL_VALUE = BUILDER
             .comment("player must be at least this level to ride.")
             .defineInRange(
-                    "need_level",
+                    "needLevel",
                     10,
                     0,
                     Integer.MAX_VALUE
             );
 
     private static final ModConfigSpec.IntValue MAX_LEVEL_VALUE = BUILDER
-            .comment("player level correlates with speed")
-            .comment("higher level, higher speed.")
+            .comment("The player level at which max speed is reached.")
+            .comment("Even when unlimitedSpeed is enabled, this value remains the baseline for speed calculation.")
             .defineInRange(
-                    "max_level",
-                    30,
+                    "maxLevel",
+                    100,
                     0,
                     Integer.MAX_VALUE
             );
@@ -52,7 +50,7 @@ public class ElainaBroomConfig {
     private static final ModConfigSpec.DoubleValue SPEED_VALUE = BUILDER
             .comment("speed")
             .defineInRange(
-                    "Speed",
+                    "speed",
                     1.0,
                     0.0,
                     10.0
@@ -71,7 +69,7 @@ public class ElainaBroomConfig {
             .comment("forwardSpeed")
             .defineInRange(
                     "forwardSpeed",
-                    2.0,
+                    3.0,
                     0.1,
                     5.0
             );
@@ -80,7 +78,7 @@ public class ElainaBroomConfig {
             .comment("backSpeed")
             .defineInRange(
                     "backSpeed",
-                    1.0,
+                    1.5,
                     0.1,
                     5.0
             );
@@ -89,7 +87,7 @@ public class ElainaBroomConfig {
             .comment("lateralSpeed")
             .defineInRange(
                     "lateralSpeed",
-                    1.0,
+                    1.5,
                     0.1,
                     5.0
             );
@@ -98,23 +96,34 @@ public class ElainaBroomConfig {
             .comment("verticalSpeed")
             .defineInRange(
                     "verticalSpeed",
-                    1.2,
+                    1.8,
                     0.1,
                     5.0
             );
 
+    private static final ModConfigSpec.BooleanValue UNLIMITED_SPEED = BUILDER
+            .comment("When enabled, speed continues to grow beyond maxLevel.")
+            .comment("Formula beyond cap: speedScale = 1.0 + sqrt((level + 5) / (maxLevel + 5) - 1.0)")
+            .comment("Growth follows a square root curve, gradually slowing down.")
+            .define("unlimitedSpeed", false);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
-    @SubscribeEvent
-    static void onLoad(ModConfigEvent event) {
-        recall_distance = RECALL_DISTANCE.get();
-        max_level = MAX_LEVEL_VALUE.get();
-        need_level = NEED_LEVEL_VALUE.get();
-        speed = SPEED_VALUE.get();
-        friction = FRICTION_VALUE.get();
-        forwardSpeed = FORWARD_SPEED.get();
-        backSpeed = BACK_SPEED.get();
-        lateralSpeed = LATERAL_SPEED.get();
-        verticalSpeed = VERTICAL_SPEED.get();
+    /**
+     * 配置加载或重载时同步静态字段
+     */
+    public static void handlerModConfigEvent(ModConfigEvent event) {
+        if (event.getConfig().getSpec() == SPEC) {
+            recallDistance = RECALL_DISTANCE.get();
+            maxLevel = MAX_LEVEL_VALUE.get();
+            needLevel = NEED_LEVEL_VALUE.get();
+            speed = SPEED_VALUE.get();
+            friction = FRICTION_VALUE.get();
+            forwardSpeed = FORWARD_SPEED.get();
+            backSpeed = BACK_SPEED.get();
+            lateralSpeed = LATERAL_SPEED.get();
+            verticalSpeed = VERTICAL_SPEED.get();
+            unlimitedSpeed = UNLIMITED_SPEED.get();
+        }
     }
 }

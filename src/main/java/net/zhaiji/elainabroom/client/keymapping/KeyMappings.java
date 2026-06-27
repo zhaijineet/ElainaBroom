@@ -2,47 +2,68 @@ package net.zhaiji.elainabroom.client.keymapping;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.zhaiji.elainabroom.entity.ElainaBroomEntity;
+import net.zhaiji.elainabroom.network.server.packet.DismountPacket;
+import net.zhaiji.elainabroom.network.server.packet.SummonOrRecallBroomPacket;
 
 @OnlyIn(Dist.CLIENT)
 public class KeyMappings {
-    public static final String BROOM_CATEGORY = "key.elainabroom.categories";
-    public static final String BROOM_SUMMON = "key.elainabroom.broom_summon_recall";
-    public static final String BROOM_DISMOUNT = "key.elainabroom.broom_dismount";
-    public static final String BROOM_UP = "key.elainabroom.broom_up";
-    public static final String BROOM_DOWN = "key.elainabroom.broom_down";
+    public static final String KEY_CATEGORY_TRANSLATABLE = "key.elainabroom.categories";
+    public static final String BROOM_SUMMON_TRANSLATABLE = "key.elainabroom.broom_summon_recall";
+    public static final String BROOM_DISMOUNT_TRANSLATABLE = "key.elainabroom.broom_dismount";
+    public static final String BROOM_UP_TRANSLATABLE = "key.elainabroom.broom_up";
+    public static final String BROOM_DOWN_TRANSLATABLE = "key.elainabroom.broom_down";
 
-    public static KeyMapping BroomSummonKey = new KeyMapping(
-            BROOM_SUMMON,
-            KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM,
-            InputConstants.KEY_B,
-            BROOM_CATEGORY
+    // 召唤或回收扫帚
+    public static final KeyMapping BROOM_SUMMON = new KeyMapping(
+        BROOM_SUMMON_TRANSLATABLE,
+        KeyConflictContext.IN_GAME,
+        InputConstants.Type.KEYSYM,
+        InputConstants.KEY_B,
+        KEY_CATEGORY_TRANSLATABLE
     );
 
-    public static KeyMapping BroomDismountKey = new KeyMapping(
-            BROOM_DISMOUNT,
-            KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM,
-            InputConstants.KEY_LSHIFT,
-            BROOM_CATEGORY
+    // 下扫帚
+    public static final KeyMapping BROOM_DISMOUNT = new KeyMapping(
+        BROOM_DISMOUNT_TRANSLATABLE,
+        KeyConflictContext.IN_GAME,
+        InputConstants.Type.KEYSYM,
+        InputConstants.KEY_LSHIFT,
+        KEY_CATEGORY_TRANSLATABLE
     );
 
-    public static KeyMapping BroomUpKey = new KeyMapping(
-            BROOM_UP,
-            KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM,
-            InputConstants.KEY_SPACE,
-            BROOM_CATEGORY
+    // 扫帚上升
+    public static final KeyMapping BROOM_UP = new KeyMapping(
+        BROOM_UP_TRANSLATABLE,
+        KeyConflictContext.IN_GAME,
+        InputConstants.Type.KEYSYM,
+        InputConstants.KEY_SPACE,
+        KEY_CATEGORY_TRANSLATABLE
     );
 
-    public static KeyMapping BroomDownKey = new KeyMapping(
-            BROOM_DOWN,
-            KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM,
-            InputConstants.KEY_LCONTROL,
-            BROOM_CATEGORY
+    // 扫帚下降
+    public static final KeyMapping BROOM_DOWN = new KeyMapping(
+        BROOM_DOWN_TRANSLATABLE,
+        KeyConflictContext.IN_GAME,
+        InputConstants.Type.KEYSYM,
+        InputConstants.KEY_LCONTROL,
+        KEY_CATEGORY_TRANSLATABLE
     );
+
+    /**
+     * 根据按键触发对应网络包
+     */
+    public static void customKeyTrigger(InputConstants.Key key) {
+        if (BROOM_SUMMON.isActiveAndMatches(key)) {
+            PacketDistributor.sendToServer(new SummonOrRecallBroomPacket());
+        }
+        if (BROOM_DISMOUNT.isActiveAndMatches(key) && Minecraft.getInstance().player.getVehicle() instanceof ElainaBroomEntity) {
+            PacketDistributor.sendToServer(new DismountPacket());
+        }
+    }
 }

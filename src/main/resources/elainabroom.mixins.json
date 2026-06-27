@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "elainabroom.refmap.json",
   "mixins": [
-    "PlayerMixin"
+    "PlayerMixin",
+    "EntityMixin"
   ],
   "client": [
     "ClientPacketListenerMixin"
