@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "minecraft:ghast_tear",
+    "B": "minecraft:hay_block",
+    "C": "minecraft:purple_wool",
+    "D": "minecraft:phantom_membrane",
+    "E": "minecraft:stick"
+  },
+  "pattern": [
+    " AB",
+    " CD",
+    "E  "
+  ],
+  "result": {
+    "id": "elainabroom:elaina_broom"
+  }
+}

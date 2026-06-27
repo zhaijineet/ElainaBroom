@@ -1,0 +1,16 @@
+{
+  "entity.elainabroom.elaina_broom": "イレイナのほうき",
+  "item.elainabroom.elaina_broom": "イレイナのほうき",
+  "itemGroup.elainabroom.elaina_broom": "イレイナのほうき",
+  "key.category.elainabroom.categories": "イレイナのほうき",
+  "key.elainabroom.broom_dismount": "降りる",
+  "key.elainabroom.broom_down": "下降",
+  "key.elainabroom.broom_summon_recall": "召喚 / 召回",
+  "key.elainabroom.broom_up": "上昇",
+  "tips.elainabroom.need_level": "ほうきを使うには、最低%dレベルが必要です",
+  "tooltip.elainabroom.broom.max_level": "%sレベルで最高速に到達",
+  "tooltip.elainabroom.broom.need_level": "乗車には最低%sレベルが必要",
+  "tooltip.elainabroom.broom.ride_and_max_level": "乗車には最低%sレベルが必要、%sレベルで最高速に到達",
+  "tooltip.elainabroom.broom.speed": "現在の速度約%sブロック/秒",
+  "tooltip.elainabroom.broom.summon_and_recall": "%sキーでほうきを召喚・回収、回収範囲%sブロック"
+}

@@ -1,0 +1,16 @@
+{
+  "entity.elainabroom.elaina_broom": "Elaina's Broom",
+  "item.elainabroom.elaina_broom": "Elaina's Broom",
+  "itemGroup.elainabroom.elaina_broom": "Elaina's Broom",
+  "key.category.elainabroom.categories": "Elaina's Broom",
+  "key.elainabroom.broom_dismount": "Dismount",
+  "key.elainabroom.broom_down": "Down",
+  "key.elainabroom.broom_summon_recall": "Summon / Recall",
+  "key.elainabroom.broom_up": "Up",
+  "tips.elainabroom.need_level": "You need at least %d level to ride the broom",
+  "tooltip.elainabroom.broom.max_level": "Reaches max speed at level %s",
+  "tooltip.elainabroom.broom.need_level": "Requires at least level %s to ride",
+  "tooltip.elainabroom.broom.ride_and_max_level": "Requires at least level %s to ride, max speed at level %s",
+  "tooltip.elainabroom.broom.speed": "Current speed ~%s blocks/s",
+  "tooltip.elainabroom.broom.summon_and_recall": "Press %s to summon or recall, recall range %s blocks"
+}
