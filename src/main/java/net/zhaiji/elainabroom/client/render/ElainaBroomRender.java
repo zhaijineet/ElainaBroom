@@ -20,11 +20,11 @@ import net.zhaiji.elainabroom.entity.ElainaBroomEntity;
 public class ElainaBroomRender extends EntityRenderer<ElainaBroomEntity> {
     private static final ResourceLocation BROOM_TEXTURE = new ResourceLocation(ElainaBroom.MOD_ID, "textures/entity/elaina_broom.png");
 
-    private final EntityModel<ElainaBroomEntity> ElainaBroomEntityEntityModel;
+    private final EntityModel<ElainaBroomEntity> broomModel;
 
     public ElainaBroomRender(EntityRendererProvider.Context context) {
         super(context);
-        ElainaBroomEntityEntityModel = new ElainaBroomModel(context.bakeLayer(ElainaBroomModel.LAYER));
+        broomModel = new ElainaBroomModel(context.bakeLayer(ElainaBroomModel.LAYER));
     }
 
     @Override
@@ -41,9 +41,10 @@ public class ElainaBroomRender extends EntityRenderer<ElainaBroomEntity> {
 
         poseStack.mulPose(Axis.YP.rotationDegrees(entityYaw - 180));
 
-        RenderType renderType = ElainaBroomEntityEntityModel.renderType(getTextureLocation(entity));
+        RenderType renderType = broomModel.renderType(getTextureLocation(entity));
         VertexConsumer buffer = bufferIn.getBuffer(renderType);
-        ElainaBroomEntityEntityModel.renderToBuffer(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY,0,0,0,0);
+        broomModel.renderToBuffer(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 0, 0, 0, 0);
         poseStack.popPose();
+        super.render(entity, entityYaw, partialTicks, poseStack, bufferIn, packedLight);
     }
 }

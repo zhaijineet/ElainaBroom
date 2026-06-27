@@ -12,12 +12,11 @@ import net.zhaiji.elainabroom.entity.ElainaBroomEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class BroomFlightSound extends AbstractTickableSoundInstance {
-    public static final int DELAY = 20;
-    public ElainaBroomEntity broom;
-    public int time;
+    private final ElainaBroomEntity broom;
+    private int time;
 
     public BroomFlightSound(ElainaBroomEntity broom) {
-        super(SoundEvents.ELYTRA_FLYING, SoundSource.AMBIENT, SoundInstance.createUnseededRandom());
+        super(SoundEvents.ELYTRA_FLYING, SoundSource.PLAYERS, SoundInstance.createUnseededRandom());
         this.broom = broom;
         this.looping = true;
         this.delay = 0;
@@ -32,7 +31,7 @@ public class BroomFlightSound extends AbstractTickableSoundInstance {
             this.y = (float) this.broom.getY();
             this.z = (float) this.broom.getZ();
             float f = (float) this.broom.getDeltaMovement().lengthSqr();
-            if ((double) f >= 1.0E-7D) {
+            if ((double) f >= 1.0E-7) {
                 this.volume = Mth.clamp(f / 4.0F, 0.0F, 1.0F);
             } else {
                 this.volume = 0.0F;
@@ -41,10 +40,9 @@ public class BroomFlightSound extends AbstractTickableSoundInstance {
             if (this.time < 20) {
                 this.volume = 0.0F;
             } else if (this.time < 40) {
-                this.volume = this.volume * ((float) (this.time - 20) / 20.0F);
+                this.volume *= (float) (this.time - 20) / 20.0F;
             }
 
-            float f1 = 0.8F;
             if (this.volume > 0.8F) {
                 this.pitch = 1.0F + (this.volume - 0.8F);
             } else {

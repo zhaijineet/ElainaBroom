@@ -61,3 +61,19 @@ mandatory = true
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
+
+# Optional dependency: Sophisticated Backpacks
+[[dependencies."${mod_id}"]]
+modId = "sophisticatedbackpacks"
+mandatory = false
+versionRange = "[3.20,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# Optional dependency: Curios
+[[dependencies."${mod_id}"]]
+modId = "curios"
+mandatory = false
+versionRange = "[5.10,)"
+ordering = "AFTER"
+side = "BOTH"

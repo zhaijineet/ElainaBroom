@@ -127,7 +127,7 @@ public class ElainaBroomModel extends EntityModel<ElainaBroomEntity> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float v, float v1, float v2, float v3) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         broom.render(poseStack, buffer, packedLight, packedOverlay);
     }
 }

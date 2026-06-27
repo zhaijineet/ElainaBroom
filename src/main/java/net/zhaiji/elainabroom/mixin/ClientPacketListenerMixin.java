@@ -16,14 +16,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPacketListener.class)
 public class ClientPacketListenerMixin {
-    @Shadow private ClientLevel level;
+    @Shadow
+    private ClientLevel level;
 
-    @Shadow @Final private Minecraft minecraft;
+    @Shadow
+    @Final
+    private Minecraft minecraft;
 
-    @Inject(method = "handleSetEntityPassengersPacket", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;setOverlayMessage(Lnet/minecraft/network/chat/Component;Z)V"), cancellable = true)
-    public void elainaBroom$handleSetEntityPassengersPacket(ClientboundSetPassengersPacket pPacket, CallbackInfo ci) {
-        if (this.level.getEntity(pPacket.getVehicle()) instanceof ElainaBroomEntity) {
-            Component component = Component.translatable("mount.onboard", KeyMappings.BroomDismountKey.getTranslatedKeyMessage());
+    @Inject(
+        method = "handleSetEntityPassengersPacket",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/Gui;setOverlayMessage(Lnet/minecraft/network/chat/Component;Z)V"
+        ),
+        cancellable = true
+    )
+    public void elainaBroom$handleSetEntityPassengersPacket(ClientboundSetPassengersPacket packet, CallbackInfo ci) {
+        if (this.level.getEntity(packet.getVehicle()) instanceof ElainaBroomEntity) {
+            Component component = Component.translatable("mount.onboard", KeyMappings.BROOM_DISMOUNT.getTranslatedKeyMessage());
             this.minecraft.gui.setOverlayMessage(component, false);
             this.minecraft.getNarrator().sayNow(component);
             ci.cancel();
