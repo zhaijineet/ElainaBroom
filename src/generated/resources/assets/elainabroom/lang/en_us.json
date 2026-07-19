@@ -7,6 +7,8 @@
   "key.elainabroom.broom_down": "Down",
   "key.elainabroom.broom_summon_recall": "Summon / Recall",
   "key.elainabroom.broom_up": "Up",
+  "tips.elainabroom.cannot_dismount": "Unable to dismount",
+  "tips.elainabroom.dismount_by_recall": "Use Summon/Recall to dismount",
   "tips.elainabroom.need_level": "You need at least %d level to ride the broom",
   "tooltip.elainabroom.broom.max_level": "Reaches max speed at level %s",
   "tooltip.elainabroom.broom.need_level": "Requires at least level %s to ride",

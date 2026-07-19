@@ -7,6 +7,8 @@
   "key.elainabroom.broom_down": "下降",
   "key.elainabroom.broom_summon_recall": "召喚 / 召回",
   "key.elainabroom.broom_up": "上昇",
+  "tips.elainabroom.cannot_dismount": "現在降りることができません",
+  "tips.elainabroom.dismount_by_recall": "召喚/召回で降りられる",
   "tips.elainabroom.need_level": "ほうきを使うには、最低%dレベルが必要です",
   "tooltip.elainabroom.broom.max_level": "%sレベルで最高速に到達",
   "tooltip.elainabroom.broom.need_level": "乗車には最低%sレベルが必要",

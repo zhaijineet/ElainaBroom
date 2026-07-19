@@ -28,6 +28,8 @@ public class LanguageProvider extends net.neoforged.neoforge.common.data.Languag
         add("entity.elainabroom.elaina_broom", "Elaina's Broom");
 
         add("tips.elainabroom.need_level", "You need at least %d level to ride the broom");
+        add("tips.elainabroom.dismount_by_recall", "Use Summon/Recall to dismount");
+        add("tips.elainabroom.cannot_dismount", "Unable to dismount");
 
         add(KEY_CATEGORY, "Elaina's Broom");
         add(KEY_SUMMON, "Summon / Recall");
@@ -48,10 +50,12 @@ public class LanguageProvider extends net.neoforged.neoforge.common.data.Languag
         add("entity.elainabroom.elaina_broom", "伊蕾娜的扫帚");
 
         add("tips.elainabroom.need_level", "你需要至少%d级才能乘坐扫帚");
+        add("tips.elainabroom.dismount_by_recall", "召唤/召回可以取消乘坐");
+        add("tips.elainabroom.cannot_dismount", "目前无法取消乘坐");
 
         add(KEY_CATEGORY, "伊蕾娜的扫帚");
         add(KEY_SUMMON, "召唤 / 召回");
-        add(KEY_DISMOUNT, "下来");
+        add(KEY_DISMOUNT, "取消乘坐");
         add(KEY_UP, "上升");
         add(KEY_DOWN, "下降");
 
@@ -68,6 +72,8 @@ public class LanguageProvider extends net.neoforged.neoforge.common.data.Languag
         add("entity.elainabroom.elaina_broom", "イレイナのほうき");
 
         add("tips.elainabroom.need_level", "ほうきを使うには、最低%dレベルが必要です");
+        add("tips.elainabroom.dismount_by_recall", "召喚/召回で降りられる");
+        add("tips.elainabroom.cannot_dismount", "現在降りることができません");
 
         add(KEY_CATEGORY, "イレイナのほうき");
         add(KEY_SUMMON, "召喚 / 召回");

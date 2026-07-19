@@ -35,7 +35,14 @@ public abstract class ClientPacketListenerMixin extends ClientCommonPacketListen
     )
     public void elainaBroom$handleSetEntityPassengersPacket(ClientboundSetPassengersPacket packet, CallbackInfo ci) {
         if (this.level.getEntity(packet.getVehicle()) instanceof ElainaBroomEntity) {
-            Component component = Component.translatable("mount.onboard", KeyMappings.BROOM_DISMOUNT.getTranslatedKeyMessage());
+            Component component;
+            if (!KeyMappings.BROOM_DISMOUNT.isUnbound()) {
+                component = Component.translatable("mount.onboard", KeyMappings.BROOM_DISMOUNT.getTranslatedKeyMessage());
+            } else if (!KeyMappings.BROOM_SUMMON.isUnbound()) {
+                component = Component.translatable("tips.elainabroom.dismount_by_recall");
+            } else {
+                component = Component.translatable("tips.elainabroom.cannot_dismount");
+            }
             this.minecraft.gui.setOverlayMessage(component, false);
             this.minecraft.getNarrator().saySystemNow(component);
             ci.cancel();
