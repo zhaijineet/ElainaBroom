@@ -18,6 +18,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -109,9 +110,36 @@ public class ElainaBroomEntity extends Entity {
                 return;
             }
         }
-        if (!player.getInventory().add(broomStack)) {
+        if (!addBroomPreferMainInventory(player, broomStack)) {
             player.spawnAtLocation(broomStack);
         }
+    }
+
+    /**
+     * 将扫帚优先放入主背包，主背包已满时退回快捷栏，返回是否成功放入
+     */
+    private static boolean addBroomPreferMainInventory(Player player, ItemStack broomStack) {
+        Inventory inventory = player.getInventory();
+        int slot = -1;
+        for (int i = 9; i < 36; i++) {
+            if (inventory.getItem(i).isEmpty()) {
+                slot = i;
+                break;
+            }
+        }
+        if (slot == -1) {
+            for (int i = 0; i < 9; i++) {
+                if (inventory.getItem(i).isEmpty()) {
+                    slot = i;
+                    break;
+                }
+            }
+        }
+        if (slot == -1) {
+            return false;
+        }
+        inventory.setItem(slot, broomStack.copy());
+        return true;
     }
 
     /**
