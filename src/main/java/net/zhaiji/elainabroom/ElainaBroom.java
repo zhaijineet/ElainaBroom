@@ -16,7 +16,7 @@ public class ElainaBroom {
     public static final String MOD_ID = "elainabroom";
 
     public ElainaBroom(IEventBus modEventBus, ModContainer modContainer) {
-        modContainer.registerConfig(ModConfig.Type.COMMON, ElainaBroomConfig.SPEC);
+        modContainer.registerConfig(ModConfig.Type.SERVER, ElainaBroomConfig.SPEC);
 
         InitItem.ITEM.register(modEventBus);
         InitCreativeModeTab.CREATIVE_MODE_TAB.register(modEventBus);

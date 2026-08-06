@@ -4,8 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -34,39 +32,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 public class ElainaBroomEntity extends Entity {
-    private static final EntityDataAccessor<Integer> DATA_NEED_LEVEL = SynchedEntityData.defineId(
-        ElainaBroomEntity.class,
-        EntityDataSerializers.INT
-    );
-    private static final EntityDataAccessor<Integer> DATA_MAX_LEVEL = SynchedEntityData.defineId(
-        ElainaBroomEntity.class,
-        EntityDataSerializers.INT
-    );
-    private static final EntityDataAccessor<Float> DATA_SPEED = SynchedEntityData.defineId(
-        ElainaBroomEntity.class,
-        EntityDataSerializers.FLOAT
-    );
-    private static final EntityDataAccessor<Float> DATA_FRICTION = SynchedEntityData.defineId(
-        ElainaBroomEntity.class,
-        EntityDataSerializers.FLOAT
-    );
-    private static final EntityDataAccessor<Float> DATA_FORWARD_SPEED = SynchedEntityData.defineId(
-        ElainaBroomEntity.class,
-        EntityDataSerializers.FLOAT
-    );
-    private static final EntityDataAccessor<Float> DATA_BACK_SPEED = SynchedEntityData.defineId(
-        ElainaBroomEntity.class,
-        EntityDataSerializers.FLOAT
-    );
-    private static final EntityDataAccessor<Float> DATA_LATERAL_SPEED = SynchedEntityData.defineId(
-        ElainaBroomEntity.class,
-        EntityDataSerializers.FLOAT
-    );
-    private static final EntityDataAccessor<Float> DATA_VERTICAL_SPEED = SynchedEntityData.defineId(
-        ElainaBroomEntity.class,
-        EntityDataSerializers.FLOAT
-    );
-
     public boolean dismountMarker = false;
 
     /**
@@ -206,20 +171,11 @@ public class ElainaBroomEntity extends Entity {
 
     @Override
     public void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(DATA_NEED_LEVEL, 10);
-        builder.define(DATA_MAX_LEVEL, 100);
-        builder.define(DATA_SPEED, 1.0F);
-        builder.define(DATA_FRICTION, 0.93F);
-        builder.define(DATA_FORWARD_SPEED, 3.0F);
-        builder.define(DATA_BACK_SPEED, 1.5F);
-        builder.define(DATA_LATERAL_SPEED, 1.5F);
-        builder.define(DATA_VERTICAL_SPEED, 1.8F);
     }
 
     @Override
     public void tick() {
         super.tick();
-        this.updateConfig();
         this.tickLerp();
         this.controlBroom();
     }
@@ -274,9 +230,9 @@ public class ElainaBroomEntity extends Entity {
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         if (!player.isShiftKeyDown() && this.canAddPassenger(player)) {
-            if (player.experienceLevel < this.getNeedLevel()) {
+            if (player.experienceLevel < ElainaBroomConfig.NEED_LEVEL.get()) {
                 if (this.level().isClientSide()) {
-                    player.displayClientMessage(Component.translatable("tips.elainabroom.need_level", this.getNeedLevel()), true);
+                    player.displayClientMessage(Component.translatable("tips.elainabroom.need_level", ElainaBroomConfig.NEED_LEVEL.get()), true);
                 }
                 return super.interact(player, hand);
             }
@@ -340,66 +296,19 @@ public class ElainaBroomEntity extends Entity {
         return InitItem.ELAINA_BROOM.get().getDefaultInstance();
     }
 
-    public int getNeedLevel() {
-        return this.entityData.get(DATA_NEED_LEVEL);
-    }
-
-    public int getMaxLevel() {
-        return this.entityData.get(DATA_MAX_LEVEL);
-    }
-
-    public float getSpeed() {
-        return this.entityData.get(DATA_SPEED);
-    }
-
-    public float getFriction() {
-        return this.entityData.get(DATA_FRICTION);
-    }
-
-    public float getForwardSpeed() {
-        return this.entityData.get(DATA_FORWARD_SPEED);
-    }
-
-    public float getBackSpeed() {
-        return this.entityData.get(DATA_BACK_SPEED);
-    }
-
-    public float getLateralSpeed() {
-        return this.entityData.get(DATA_LATERAL_SPEED);
-    }
-
-    public float getVerticalSpeed() {
-        return this.entityData.get(DATA_VERTICAL_SPEED);
-    }
-
-    /**
-     * 定期从配置同步参数到同步数据
-     */
-    public void updateConfig() {
-        if (this.tickCount % 40 != 0) return;
-        this.entityData.set(DATA_NEED_LEVEL, ElainaBroomConfig.needLevel);
-        this.entityData.set(DATA_MAX_LEVEL, ElainaBroomConfig.maxLevel);
-        this.entityData.set(DATA_SPEED, (float) ElainaBroomConfig.speed);
-        this.entityData.set(DATA_FRICTION, (float) ElainaBroomConfig.friction);
-        this.entityData.set(DATA_FORWARD_SPEED, (float) ElainaBroomConfig.forwardSpeed);
-        this.entityData.set(DATA_BACK_SPEED, (float) ElainaBroomConfig.backSpeed);
-        this.entityData.set(DATA_LATERAL_SPEED, (float) ElainaBroomConfig.lateralSpeed);
-        this.entityData.set(DATA_VERTICAL_SPEED, (float) ElainaBroomConfig.verticalSpeed);
-    }
-
     /**
      * 根据玩家等级计算速度倍率，创造模式保底 1.0，开启 unlimitedSpeed 时按真实等级继续突破
      */
     public static double calculateSpeedScale(int playerLevel, boolean instabuild) {
-        double ratio = (double) (playerLevel + 5) / (ElainaBroomConfig.maxLevel + 5);
+        double ratio = (double) (playerLevel + 5) / (ElainaBroomConfig.MAX_LEVEL.get() + 5);
         double speedScale;
-        if (ElainaBroomConfig.unlimitedSpeed && ratio > 1.0) {
+        if (ElainaBroomConfig.UNLIMITED_SPEED.get() && ratio > 1.0) {
             speedScale = 1.0 + Math.sqrt(ratio - 1.0);
         } else {
             speedScale = Math.min(1.0, ratio);
         }
         if (instabuild) {
-            if (ElainaBroomConfig.unlimitedSpeed) {
+            if (ElainaBroomConfig.UNLIMITED_SPEED.get()) {
                 speedScale = Math.max(1.0, speedScale);
             } else {
                 speedScale = 1.0;
@@ -426,11 +335,12 @@ public class ElainaBroomEntity extends Entity {
 
             double speedScale = calculateSpeedScale(player.experienceLevel, player.getAbilities().instabuild);
 
-            double forwardSpeed = 0.03 * this.getForwardSpeed() * this.getSpeed() * speedScale;
-            double backSpeed = 0.03 * this.getBackSpeed() * this.getSpeed() * speedScale;
-            double lateralSpeed = 0.03 * this.getLateralSpeed() * this.getSpeed() * speedScale;
-            double verticalSpeed = 0.03 * this.getVerticalSpeed() * this.getSpeed() * speedScale;
-            double friction = this.getFriction();
+            double speed = ElainaBroomConfig.SPEED.get();
+            double friction = ElainaBroomConfig.FRICTION.get();
+            double forwardSpeed = 0.03 * ElainaBroomConfig.FORWARD_SPEED.get() * speed * speedScale;
+            double backSpeed = 0.03 * ElainaBroomConfig.BACK_SPEED.get() * speed * speedScale;
+            double lateralSpeed = 0.03 * ElainaBroomConfig.LATERAL_SPEED.get() * speed * speedScale;
+            double verticalSpeed = 0.03 * ElainaBroomConfig.VERTICAL_SPEED.get() * speed * speedScale;
             double yawRadians = Math.toRadians(this.getYRot());
 
             if (this.inputForward) {

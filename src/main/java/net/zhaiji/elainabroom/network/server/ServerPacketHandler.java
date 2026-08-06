@@ -27,7 +27,7 @@ public class ServerPacketHandler {
             if (!player.getAbilities().instabuild) {
                 for (ItemStack stack : player.getInventory().items) {
                     if (stack.is(InitItem.ELAINA_BROOM.get())) {
-                        if (player.experienceLevel < ElainaBroomConfig.needLevel) {
+                        if (player.experienceLevel < ElainaBroomConfig.NEED_LEVEL.get()) {
                             messageFlag = true;
                         } else {
                             ElainaBroomEntity broom = ElainaBroomEntity.summonBroom(serverLevel, stack, player.getOnPos(), player);
@@ -41,7 +41,7 @@ public class ServerPacketHandler {
                     }
                 }
                 if (!flag && !messageFlag && CompatManager.SOPHISTICATED_BACKPACKS_LOADED) {
-                    if (player.experienceLevel < ElainaBroomConfig.needLevel) {
+                    if (player.experienceLevel < ElainaBroomConfig.NEED_LEVEL.get()) {
                         if (SophisticatedBackpacksCompat.hasBroomInBackpacks(player)) {
                             messageFlag = true;
                         }
@@ -77,7 +77,7 @@ public class ServerPacketHandler {
             }
             if (!flag) {
                 for (Entity entity : player.level()
-                    .getEntities(player, player.getBoundingBox().inflate(ElainaBroomConfig.recallDistance))) {
+                    .getEntities(player, player.getBoundingBox().inflate(ElainaBroomConfig.RECALL_DISTANCE.get()))) {
                     if (entity instanceof ElainaBroomEntity broom && !broom.isVehicle()) {
                         recallBroom(player, broom);
                         messageFlag = false;
@@ -86,7 +86,7 @@ public class ServerPacketHandler {
                 }
             }
             if (messageFlag) {
-                PacketDistributor.sendToPlayer((ServerPlayer) player, new MessagePacket(ElainaBroomConfig.needLevel));
+                PacketDistributor.sendToPlayer((ServerPlayer) player, new MessagePacket(ElainaBroomConfig.NEED_LEVEL.get()));
             }
         }
     }
