@@ -23,7 +23,7 @@ public class ElainaBroom {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ElainaBroomConfig.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ElainaBroomConfig.SPEC);
 
         InitItem.ITEM.register(modEventBus);
         InitCreativeModeTab.CREATIVE_MODE_TAB.register(modEventBus);

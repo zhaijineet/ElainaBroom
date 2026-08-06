@@ -9,4 +9,6 @@ public final class CompatManager {
     public static final boolean SOPHISTICATED_BACKPACKS_LOADED = ModList.get().isLoaded("sophisticatedbackpacks");
 
     public static final boolean CURIOS_LOADED = ModList.get().isLoaded("curios");
+
+    public static final boolean CLOTH_CONFIG_LOADED = ModList.get().isLoaded("cloth_config");
 }

@@ -184,6 +184,9 @@ dependencies {
 
     compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.14.1+1.20.1:api"))
     runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.14.1+1.20.1"))
+
+    compileOnly fg.deobf("curse.maven:cloth-config-348521:5729105")
+    runtimeOnly fg.deobf("curse.maven:cloth-config-348521:5729105")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

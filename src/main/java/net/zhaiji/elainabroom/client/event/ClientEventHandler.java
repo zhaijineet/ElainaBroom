@@ -106,37 +106,41 @@ public class ClientEventHandler {
         if (player == null) {
             player = Minecraft.getInstance().player;
         }
+        if (player == null) {
+            return;
+        }
 
         int index = 1;
 
-        boolean showNeedLevel = ElainaBroomConfig.needLevel > 0;
-        boolean showMaxLevel = !ElainaBroomConfig.unlimitedSpeed;
+        boolean showNeedLevel = ElainaBroomConfig.NEED_LEVEL.get() > 0;
+        boolean showMaxLevel = !ElainaBroomConfig.UNLIMITED_SPEED.get();
         if (showNeedLevel && showMaxLevel) {
             tooltip.add(
                 index++, Component.translatable(
                     "tooltip.elainabroom.broom.ride_and_max_level",
-                    ElainaBroomConfig.needLevel,
-                    ElainaBroomConfig.maxLevel
+                    ElainaBroomConfig.NEED_LEVEL.get(),
+                    ElainaBroomConfig.MAX_LEVEL.get()
                 )
             );
         } else if (showNeedLevel) {
             tooltip.add(
                 index++, Component.translatable(
                     "tooltip.elainabroom.broom.need_level",
-                    ElainaBroomConfig.needLevel
+                    ElainaBroomConfig.NEED_LEVEL.get()
                 )
             );
         } else if (showMaxLevel) {
             tooltip.add(
                 index++, Component.translatable(
                     "tooltip.elainabroom.broom.max_level",
-                    ElainaBroomConfig.maxLevel
+                    ElainaBroomConfig.MAX_LEVEL.get()
                 )
             );
         }
 
         double speedScale = ElainaBroomEntity.calculateSpeedScale(player.experienceLevel, player.getAbilities().instabuild);
-        double currentSpeed = 0.03 * ElainaBroomConfig.forwardSpeed * ElainaBroomConfig.speed * speedScale * ElainaBroomConfig.friction / (1.0 - ElainaBroomConfig.friction) * 20.0;
+        double friction = ElainaBroomConfig.FRICTION.get();
+        double currentSpeed = 0.03 * ElainaBroomConfig.FORWARD_SPEED.get() * ElainaBroomConfig.SPEED.get() * speedScale * friction / (1.0 - friction) * 20.0;
         tooltip.add(
             index++, Component.translatable(
                 "tooltip.elainabroom.broom.speed",
@@ -148,7 +152,7 @@ public class ClientEventHandler {
             index++, Component.translatable(
                 "tooltip.elainabroom.broom.summon_and_recall",
                 Component.keybind("key.elainabroom.broom_summon_recall"),
-                ElainaBroomConfig.recallDistance
+                ElainaBroomConfig.RECALL_DISTANCE.get()
             )
         );
     }
